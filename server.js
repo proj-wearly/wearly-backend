@@ -1,15 +1,17 @@
-import express from 'express';
-import cors from 'cors';
+import dotenv from "dotenv";
+import app from "./src/app.js";
+import { connectDB } from "./src/config/db.js";
 
-const app = express();
+dotenv.config();
 
-app.use(cors());
-app.use(express.json());
+const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.json({ message: 'wearly backend running' });
-});
+const startServer = async () => {
+  await connectDB();
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+  app.listen(PORT, () => {
+    console.log(`server running on port ${PORT}`);
+  });
+};
+
+startServer();
