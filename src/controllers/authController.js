@@ -23,11 +23,16 @@ export const checkUsername = async (req, res) => {
       username: username.trim(),
     });
 
+    if (existingUser) {
+      return res.status(200).json({
+        available: false,
+        message: "이미 사용 중인 아이디입니다.",
+      });
+    }
+
     return res.status(200).json({
-      available: !existingUser,
-      message: existingUser
-        ? "이미 사용 중인 아이디입니다."
-        : "사용 가능한 아이디입니다.",
+      available: true,
+      message: "사용 가능한 아이디입니다.",
     });
   } catch (error) {
     console.error("checkUsername error:", error.message);
