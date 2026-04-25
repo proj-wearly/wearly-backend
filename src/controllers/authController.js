@@ -8,14 +8,13 @@ const generateToken = (userId) => {
   });
 };
 
-// 아이디 중복 확인
 export const checkUsername = async (req, res) => {
   try {
     const { username } = req.query;
 
     if (!username || !username.trim()) {
       return res.status(400).json({
-        message: "username을 입력해주세요.",
+        message: "Please enter a username.",
       });
     }
 
@@ -26,23 +25,22 @@ export const checkUsername = async (req, res) => {
     if (existingUser) {
       return res.status(200).json({
         available: false,
-        message: "이미 사용 중인 아이디입니다.",
+        message: "This username is already taken.",
       });
     }
 
     return res.status(200).json({
       available: true,
-      message: "사용 가능한 아이디입니다.",
+      message: "This username is available.",
     });
   } catch (error) {
     console.error("checkUsername error:", error.message);
     return res.status(500).json({
-      message: "서버 오류",
+      message: "A server error occurred.",
     });
   }
 };
 
-// 회원가입
 export const registerUser = async (req, res) => {
   try {
     const {
@@ -59,25 +57,25 @@ export const registerUser = async (req, res) => {
 
     if (!name || !name.trim()) {
       return res.status(400).json({
-        message: "이름을 입력해주세요.",
+        message: "Please enter your name.",
       });
     }
 
     if (!username || !username.trim()) {
       return res.status(400).json({
-        message: "아이디를 입력해주세요.",
+        message: "Please enter a username.",
       });
     }
 
     if (!email || !email.trim()) {
       return res.status(400).json({
-        message: "이메일을 입력해주세요.",
+        message: "Please enter your email.",
       });
     }
 
     if (!password) {
       return res.status(400).json({
-        message: "비밀번호를 입력해주세요.",
+        message: "Please enter a password.",
       });
     }
 
@@ -86,7 +84,7 @@ export const registerUser = async (req, res) => {
     if (!passwordValid) {
       return res.status(400).json({
         message:
-          "비밀번호는 대문자 1개 이상, 특수기호 1개 이상 포함하고 7자리 이상이어야 합니다.",
+          "Password must include one uppercase letter, one special character, and be at least 7 characters long.",
       });
     }
 
@@ -96,7 +94,7 @@ export const registerUser = async (req, res) => {
 
     if (existingEmail) {
       return res.status(409).json({
-        message: "이미 가입된 이메일입니다.",
+        message: "This email is already registered.",
       });
     }
 
@@ -106,7 +104,7 @@ export const registerUser = async (req, res) => {
 
     if (existingUsername) {
       return res.status(409).json({
-        message: "이미 사용 중인 아이디입니다.",
+        message: "This username is already taken.",
       });
     }
 
@@ -127,7 +125,7 @@ export const registerUser = async (req, res) => {
     const token = generateToken(user._id);
 
     return res.status(201).json({
-      message: "회원가입 성공",
+      message: "Sign up completed successfully.",
       token,
       user: {
         id: user._id,
@@ -144,19 +142,18 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     console.error("registerUser error:", error.message);
     return res.status(500).json({
-      message: "서버 오류",
+      message: "A server error occurred.",
     });
   }
 };
 
-// 로그인
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
-        message: "email과 password를 입력해주세요.",
+        message: "Please enter email and password.",
       });
     }
 
@@ -166,7 +163,7 @@ export const loginUser = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: "이메일 또는 비밀번호가 올바르지 않습니다.",
+        message: "Invalid email or password.",
       });
     }
 
@@ -174,14 +171,14 @@ export const loginUser = async (req, res) => {
 
     if (!isMatch) {
       return res.status(401).json({
-        message: "이메일 또는 비밀번호가 올바르지 않습니다.",
+        message: "Invalid email or password.",
       });
     }
 
     const token = generateToken(user._id);
 
     return res.status(200).json({
-      message: "로그인 성공",
+      message: "Login successful.",
       token,
       user: {
         id: user._id,
@@ -198,22 +195,21 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     console.error("loginUser error:", error.message);
     return res.status(500).json({
-      message: "서버 오류",
+      message: "A server error occurred.",
     });
   }
 };
 
-// 내 정보 조회
 export const getMe = async (req, res) => {
   try {
     return res.status(200).json({
-      message: "내 정보 조회 성공",
+      message: "Profile loaded successfully.",
       user: req.user,
     });
   } catch (error) {
     console.error("getMe error:", error.message);
     return res.status(500).json({
-      message: "서버 오류",
+      message: "A server error occurred.",
     });
   }
 };

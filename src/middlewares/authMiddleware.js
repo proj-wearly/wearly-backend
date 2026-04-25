@@ -14,17 +14,16 @@ export const protect = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
-        message: "인증 토큰이 없습니다.",
+        message: "Authentication token is required.",
       });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
       return res.status(401).json({
-        message: "유효하지 않은 사용자입니다.",
+        message: "No user was found for this token.",
       });
     }
 
@@ -33,7 +32,7 @@ export const protect = async (req, res, next) => {
   } catch (error) {
     console.error("protect error:", error.message);
     return res.status(401).json({
-      message: "유효하지 않은 토큰입니다.",
+      message: "Invalid token.",
     });
   }
 };
