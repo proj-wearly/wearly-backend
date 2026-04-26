@@ -55,7 +55,7 @@ router.patch("/items/:id", async (req, res) => {
     const item = await ClosetItem.findOneAndUpdate(
       { _id: req.params.id, userId: req.user._id },
       req.body,
-      { new: true }
+      { returnDocument: "after" }
     );
 
     if (!item) {

@@ -88,7 +88,7 @@ router.patch("/posts/:id", async (req, res) => {
     const post = await CommunityPost.findOneAndUpdate(
       { _id: req.params.id, userId: req.user._id },
       req.body,
-      { new: true }
+      { returnDocument: "after" }
     );
 
     if (!post) {

@@ -50,6 +50,34 @@ const userSchema = new mongoose.Schema(
       default: null,
       trim: true,
     },
+    bio: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    avatarUri: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    instagramUrl: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    youtubeUrl: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    preferredStyles: {
+      type: [String],
+      default: [],
+    },
+    preferredColors: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,
